@@ -50,6 +50,10 @@ RegInspect.exe -dir ./examples/solidity -out ./examples/solidity/output.MD -vuln
 ```
 
 
+## Credits
+1. [@byterocket](https://github.com/byterocket) (For common solidity issues & inspiration drawn from c4udit tool.)
+
+
 ## Author
 
 👤 **Jayateertha G**
