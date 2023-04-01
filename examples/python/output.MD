@@ -8,7 +8,7 @@
 </br>
 
 #### **Vulnerability: Hardcoded Password**
-#### **Description**:Do not use hardcoded passwords.
+#### **Description**: Do not use hardcoded passwords.
 #### **File Name**: ./examples/python/passwords.py
 #### **Line No**: 2
 #### **Content**: 
@@ -17,7 +17,7 @@ password="secret"</pre>
 </br>
 
 #### **Vulnerability: Hardcoded Password**
-#### **Description**:Do not use hardcoded passwords.
+#### **Description**: Do not use hardcoded passwords.
 #### **File Name**: ./examples/python/passwords.py
 #### **Line No**: 4
 #### **Content**: 
