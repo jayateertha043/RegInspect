@@ -3,11 +3,13 @@ package main
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
 	"strconv"
+	"sync"
 )
 
 // Scanner struct
@@ -15,13 +17,15 @@ type Scanner struct {
 	RootDir         string
 	Extensions      []string
 	Vulnerabilities []Vulnerability
+	Threads         int
 }
 
 // NewScanner creates a new scanner instance
-func NewScanner(rootDir string, extensions []string, vulnerabilities []Vulnerability) *Scanner {
+func NewScanner(rootDir string, extensions []string, threads int, vulnerabilities []Vulnerability) *Scanner {
 	return &Scanner{
 		RootDir:         rootDir,
 		Vulnerabilities: vulnerabilities,
+		Threads:         threads,
 		Extensions:      extensions,
 	}
 }
@@ -30,6 +34,9 @@ func NewScanner(rootDir string, extensions []string, vulnerabilities []Vulnerabi
 func (s *Scanner) Scan() []Issue {
 	var Issues []Issue
 	var extLength int = len(s.Extensions)
+	fileChan := make(chan string)
+	var filePaths []string
+
 	filepath.Walk(s.RootDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -40,31 +47,64 @@ func (s *Scanner) Scan() []Issue {
 
 		if extLength > 0 {
 			// Check if file extension is in the list
+			//fmt.Println(extLength)
 			ext := filepath.Ext(path)
 			if !stringInSlice(ext, s.Extensions) {
 				return nil
 			}
 		}
-
-		content, err := ioutil.ReadFile(path)
-		if err != nil {
-			return err
-		}
-		for _, vulnerability := range s.Vulnerabilities {
-			reg := regexp.MustCompile(vulnerability.Regex)
-			matches := reg.FindAllStringSubmatchIndex(string(content), -1)
-			for _, match := range matches {
-				Issue := Issue{
-					File:        path,
-					Line:        s.getLineNumber(content, match),
-					LineContent: s.getLine(content, match),
-					Vuln:        vulnerability,
-				}
-				Issues = append(Issues, Issue)
-			}
-		}
+		filePaths = append(filePaths, path)
+		//fileChan <- path
 		return nil
 	})
+	//fmt.Println(filePaths)
+	filePathsCount := len(filePaths)
+	if filePathsCount <= s.Threads {
+		s.Threads = filePathsCount
+	}
+	if s.Threads < 1 || s.Threads > 99 {
+		s.Threads = 10
+	}
+	//fmt.Println(s.Threads)
+	var wg sync.WaitGroup
+	// Launch worker goroutines
+	for i := 0; i < s.Threads; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for path := range fileChan {
+				content, err := ioutil.ReadFile(path)
+				if err != nil {
+					log.Printf("Error reading file %s: %v", path, err)
+					continue
+				}
+				for _, vulnerability := range s.Vulnerabilities {
+					reg := regexp.MustCompile(vulnerability.Regex)
+					matches := reg.FindAllStringSubmatchIndex(string(content), -1)
+					for _, match := range matches {
+						Issue := Issue{
+							File:        path,
+							Line:        s.getLineNumber(content, match),
+							LineContent: s.getLine(content, match),
+							Vuln:        vulnerability,
+						}
+						Issues = append(Issues, Issue)
+					}
+				}
+			}
+		}()
+	}
+
+	// Add paths to file channel
+	go func() {
+		for _, path := range filePaths {
+			fileChan <- path
+		}
+		close(fileChan)
+	}()
+
+	// Wait for worker goroutines to finish
+	wg.Wait()
 
 	return Issues
 }

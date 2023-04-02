@@ -16,6 +16,7 @@ func main() {
 	dir := flag.String("dir", ".", "Directory to scan")
 	jsonFile := flag.String("vuln", "", "JSON file containing vulnerabilities")
 	ext := flag.String("ext", "", "Scan Files ending with specific extensions (comma-Separated)")
+	threads := flag.Int("threads", 10, "No. Of Threads")
 	out := flag.String("out", "RegInspect_Report.MD", "Path to Output File")
 	flag.Parse()
 
@@ -47,7 +48,7 @@ func main() {
 	}
 
 	// Create scanner and start scanning
-	scanner := NewScanner(*dir, extensions, vulnerabilities)
+	scanner := NewScanner(*dir, extensions, *threads, vulnerabilities)
 	Issues := scanner.Scan()
 	md := scanner.GenerateMarkdown(Issues)
 	if *out != "" {
