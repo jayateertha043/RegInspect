@@ -6,8 +6,8 @@
 
 | **Severity** | **Count** |
 | -------- | ----- |
-| Low | 4 |
-| Informative | 15 |
+| Low | 2 |
+| Informative | 5 |
 </br>
 
 ## **Vulnerabilities** -
@@ -28,17 +28,8 @@
 #### **Line No**: 16
 #### **Content**: 
 <pre>
-        token.transferFrom(msg.sender, address(this), 100);</pre></br>
-
-
-#### **Issue ID**: 19
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 31
-#### **Content**: 
-<pre>
-        token.transferFrom(msg.sender, address(this), 100);</pre></br></pre></br>
+        token.transferFrom(msg.sender, address(this), 100);
+</pre></br>
 #### </br>
 
 ### **Vulnerability: Unspecific Compiler Version Pragma [SOL10]**
@@ -51,17 +42,8 @@
 #### **Line No**: 1
 #### **Content**: 
 <pre>
-pragma solidity ^0.8.0;</pre></br>
-
-
-#### **Issue ID**: 20
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 44
-#### **Content**: 
-<pre>
-pragma solidity ^0.8.0;</pre></br></pre></br>
+pragma solidity ^0.8.0;
+</pre></br>
 
 
 ### **Severity: Informative**</br>
@@ -78,7 +60,8 @@ pragma solidity ^0.8.0;</pre></br></pre></br>
 #### **Line No**: 4
 #### **Content**: 
 <pre>
-    uint256 a = 0;</pre></br>
+    uint256 a = 0;
+</pre></br>
 
 
 #### **Issue ID**: 3
@@ -88,37 +71,8 @@ pragma solidity ^0.8.0;</pre></br></pre></br>
 #### **Line No**: 12
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br>
-
-
-#### **Issue ID**: 9
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 61
-#### **Content**: 
-<pre>
-    uint256 a = 0;</pre></br></pre></br>
-
-
-#### **Issue ID**: 10
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 71
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
-
-
-#### **Issue ID**: 11
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 84
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+        for (uint256 i = 0; i < array.length; i++) {
+</pre></br>
 #### </br>
 
 ### **Vulnerability: Cache Array Length Outside of Loop [SOL2]**
@@ -131,37 +85,8 @@ pragma solidity ^0.8.0;</pre></br></pre></br>
 #### **Line No**: 12
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br>
-
-
-#### **Issue ID**: 12
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 71
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
-
-
-#### **Issue ID**: 13
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 75
-#### **Content**: 
-<pre>
-### **Description**: Cache the length of arrays outside of loops to save gas.</br></br></pre></br>
-
-
-#### **Issue ID**: 14
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 84
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+        for (uint256 i = 0; i < array.length; i++) {
+</pre></br>
 #### </br>
 
 ### **Vulnerability: Long Revert Strings [SOL7]**
@@ -174,17 +99,8 @@ pragma solidity ^0.8.0;</pre></br></pre></br>
 #### **Line No**: 6
 #### **Content**: 
 <pre>
-    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre></br>
-
-
-#### **Issue ID**: 15
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 97
-#### **Content**: 
-<pre>
-    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre></br></pre></br>
+    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+</pre></br>
 #### </br>
 
 ### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible [SOL8]**
@@ -197,37 +113,8 @@ pragma solidity ^0.8.0;</pre></br></pre></br>
 #### **Line No**: 13
 #### **Content**: 
 <pre>
-            i = i / 2;</pre></br>
-
-
-#### **Issue ID**: 16
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 22
-#### **Content**: 
-<pre>
-### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations</br></br></pre></br>
-
-
-#### **Issue ID**: 17
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 35
-#### **Content**: 
-<pre>
-### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma</br></br></pre></br>
-
-
-#### **Issue ID**: 18
-
-
-#### **File Name**: examples\solidity\output10.MD
-#### **Line No**: 110
-#### **Content**: 
-<pre>
-            i = i / 2;</pre></br></pre></br>
+            i = i / 2;
+</pre></br>
 
 
 
