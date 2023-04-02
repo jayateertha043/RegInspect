@@ -27,8 +27,7 @@
 #### **Line No**: 2
 #### **Content**: 
 <pre>
-password="secret"
-</pre></br>
+password="secret"</pre></br>
 
 
 #### **Issue ID**: 3
@@ -38,8 +37,7 @@ password="secret"
 #### **Line No**: 4
 #### **Content**: 
 <pre>
-passwoRd = "secret123"
-</pre></br>
+passwoRd = "secret123"</pre></br>
 
 
 

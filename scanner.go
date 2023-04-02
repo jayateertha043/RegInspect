@@ -154,7 +154,7 @@ func (s *Scanner) GenerateMarkdown(Issues []Issue) string {
 	}
 
 	MarkDown += "\n\n## **Summary**</br>\n\n"
-	MarkDown += severityCountTable + "</br></br>\n\n"
+	MarkDown += severityCountTable + "</br>\n\n"
 	VulnerabilitiesHead := "## **Vulnerabilities** -\n\n"
 	MarkDown = MarkDown + VulnerabilitiesHead
 
