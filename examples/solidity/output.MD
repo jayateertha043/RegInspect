@@ -1,5 +1,15 @@
 # **RegInspect Vulnerability Report**
 
+
+
+## **Summary**</br>
+
+| **Severity** | **Count** |
+| -------- | ----- |
+| Low | 2 |
+| Informative | 5 |
+</br></br>
+
 ## **Vulnerabilities** -
 
 

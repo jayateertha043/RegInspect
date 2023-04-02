@@ -1,5 +1,14 @@
 # **RegInspect Vulnerability Report**
 
+
+
+## **Summary**</br>
+
+| **Severity** | **Count** |
+| -------- | ----- |
+| High | 2 |
+</br></br>
+
 ## **Vulnerabilities** -
 
 
@@ -18,7 +27,8 @@
 #### **Line No**: 2
 #### **Content**: 
 <pre>
-password="secret"</pre></br>
+password="secret"
+</pre></br>
 
 
 #### **Issue ID**: 3
@@ -28,7 +38,8 @@ password="secret"</pre></br>
 #### **Line No**: 4
 #### **Content**: 
 <pre>
-passwoRd = "secret123"</pre></br>
+passwoRd = "secret123"
+</pre></br>
 
 
 

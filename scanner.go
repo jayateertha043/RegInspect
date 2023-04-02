@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -76,6 +77,7 @@ func (s *Scanner) Scan() []Issue {
 					continue
 				}
 				for _, vulnerability := range s.Vulnerabilities {
+
 					reg := regexp.MustCompile(vulnerability.Regex)
 					matches := reg.FindAllStringSubmatchIndex(string(content), -1)
 					for _, match := range matches {
@@ -127,9 +129,8 @@ func (s *Scanner) getLineNumber(content []byte, match []int) int {
 }
 
 func (s *Scanner) GenerateMarkdown(Issues []Issue) string {
+
 	MarkDown := "# **RegInspect Vulnerability Report**\n\n"
-	VulnerabilitiesHead := "## **Vulnerabilities** -\n\n"
-	MarkDown = MarkDown + VulnerabilitiesHead
 
 	// group issues by severity and issue ID
 	severityIDGroups := make(map[string]map[string][]Issue)
@@ -139,6 +140,23 @@ func (s *Scanner) GenerateMarkdown(Issues []Issue) string {
 		}
 		severityIDGroups[issue.Vuln.Severity][issue.Vuln.ID] = append(severityIDGroups[issue.Vuln.Severity][issue.Vuln.ID], issue)
 	}
+	// generate severity count table
+	severityCountTable := "| **Severity** | **Count** |\n| -------- | ----- |\n"
+	severityCount := make(map[string]int)
+	for _, issue := range Issues {
+		severityCount[issue.Vuln.Severity]++
+	}
+
+	for _, severity := range []string{"Critical", "High", "Medium", "Low", "Informative", "QA"} {
+		if count, ok := severityCount[severity]; ok {
+			severityCountTable += fmt.Sprintf("| %s | %d |\n", severity, count)
+		}
+	}
+
+	MarkDown += "\n\n## **Summary**</br>\n\n"
+	MarkDown += severityCountTable + "</br></br>\n\n"
+	VulnerabilitiesHead := "## **Vulnerabilities** -\n\n"
+	MarkDown = MarkDown + VulnerabilitiesHead
 
 	// iterate through severity groups in order of decreasing severity
 	severityOrder := []string{"Critical", "High", "Medium", "Low", "Informative", "QA"}
