@@ -24,9 +24,9 @@ func NewScanner(rootDir string, vulnerabilities []Vulnerability) *Scanner {
 	}
 }
 
-// Scan scans the directory and returns any findings
-func (s *Scanner) Scan() []Finding {
-	var findings []Finding
+// Scan scans the directory and returns any Issues
+func (s *Scanner) Scan() []Issue {
+	var Issues []Issue
 
 	filepath.Walk(s.RootDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
@@ -43,19 +43,19 @@ func (s *Scanner) Scan() []Finding {
 			reg := regexp.MustCompile(vulnerability.Regex)
 			matches := reg.FindAllStringSubmatchIndex(string(content), -1)
 			for _, match := range matches {
-				finding := Finding{
+				Issue := Issue{
 					File:        path,
 					Line:        s.getLineNumber(content, match),
 					LineContent: s.getLine(content, match),
 					Vuln:        vulnerability,
 				}
-				findings = append(findings, finding)
+				Issues = append(Issues, Issue)
 			}
 		}
 		return nil
 	})
 
-	return findings
+	return Issues
 }
 
 func (s *Scanner) getLine(content []byte, match []int) string {
@@ -74,28 +74,28 @@ func (s *Scanner) getLineNumber(content []byte, match []int) int {
 	return len(regexp.MustCompile(`\n`).FindAll(content[0:match[0]], -1)) + len(lineStart) - 1
 }
 
-func (s *Scanner) GenerateMarkdown(findings []Finding) string {
+func (s *Scanner) GenerateMarkdown(Issues []Issue) string {
 	MarkDown := "# **RegInspect Vulnerability Report**\n\n"
 	VulnerabilitiesHead := "## **Vulnerabilities** -\n\n"
 	MarkDown = MarkDown + VulnerabilitiesHead
-	SortBySeverity(findings)
+	SortBySeverity(Issues)
 	severityChanged := ""
-	for _, finding := range findings {
-		if finding.Vuln.Severity != severityChanged {
-			MarkDown = MarkDown + "\n\n### **Severity: " + finding.Vuln.Severity + "**" + "\n</br>"
-			severityChanged = finding.Vuln.Severity
+	for _, Issue := range Issues {
+		if Issue.Vuln.Severity != severityChanged {
+			MarkDown = MarkDown + "\n\n### **Severity: " + Issue.Vuln.Severity + "**" + "\n</br>"
+			severityChanged = Issue.Vuln.Severity
 		}
-		MarkDown = MarkDown + "\n\n#### **Vulnerability: " + finding.Vuln.Name + "**" + "\n" + "#### **Description**: " + finding.Vuln.Description + "\n" + "#### **File Name**: " + finding.File + "\n" + "#### **Line No**: " + strconv.Itoa(finding.Line) + "\n" + "#### **Content**: " + "\n<pre>\n" + finding.LineContent + "</pre>" + "\n</br>"
+		MarkDown = MarkDown + "\n\n#### **Vulnerability: " + Issue.Vuln.Name + "**" + "\n" + "#### **Description**: " + Issue.Vuln.Description + "\n" + "#### **File Name**: " + Issue.File + "\n" + "#### **Line No**: " + strconv.Itoa(Issue.Line) + "\n" + "#### **Content**: " + "\n<pre>\n" + Issue.LineContent + "</pre>" + "\n</br>"
 	}
 	MarkDown = MarkDown + "\n\n\n\n"
 	return MarkDown
 }
-func SortBySeverity(findings []Finding) {
-	sort.Slice(findings, func(i, j int) bool {
-		return sortBySeverity(findings[i], findings[j])
+func SortBySeverity(Issues []Issue) {
+	sort.Slice(Issues, func(i, j int) bool {
+		return sortBySeverity(Issues[i], Issues[j])
 	})
 }
-func sortBySeverity(finding1, finding2 Finding) bool {
+func sortBySeverity(Issue1, Issue2 Issue) bool {
 	severityOrder := map[string]int{
 		"Critical":    4,
 		"High":        3,
@@ -104,5 +104,5 @@ func sortBySeverity(finding1, finding2 Finding) bool {
 		"Informative": 0,
 		"QA":          -1,
 	}
-	return severityOrder[finding1.Vuln.Severity] > severityOrder[finding2.Vuln.Severity]
+	return severityOrder[Issue1.Vuln.Severity] > severityOrder[Issue2.Vuln.Severity]
 }

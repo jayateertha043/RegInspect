@@ -32,8 +32,8 @@ func main() {
 
 	// Create scanner and start scanning
 	scanner := NewScanner(*dir, vulnerabilities)
-	findings := scanner.Scan()
-	md := scanner.GenerateMarkdown(findings)
+	Issues := scanner.Scan()
+	md := scanner.GenerateMarkdown(Issues)
 	if *out != "" {
 		err := ioutil.WriteFile(*out, []byte(md), 0644)
 		if err != nil {
