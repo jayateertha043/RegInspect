@@ -6,11 +6,13 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 func main() {
 	// Parse command line arguments
 	dir := flag.String("dir", ".", "Directory to scan")
+	ext := flag.String("ext", "", "Scan Files ending with specific extensions (comma-Separated)")
 	out := flag.String("out", "RegInspect_Report.MD", "Path to Output File")
 	jsonFile := flag.String("vuln", "", "JSON file containing vulnerabilities")
 	flag.Parse()
@@ -30,8 +32,20 @@ func main() {
 		}
 	}
 
+	//Get extensions list from user to scan files ending with specific extensions
+	var extensions []string
+	if *ext != "" {
+		extensions = strings.Split(*ext, ",")
+		for i, s := range extensions {
+			extensions[i] = strings.TrimSpace(s)
+			if !strings.HasPrefix(extensions[i], ".") {
+				extensions[i] = "." + extensions[i]
+			}
+		}
+	}
+
 	// Create scanner and start scanning
-	scanner := NewScanner(*dir, vulnerabilities)
+	scanner := NewScanner(*dir, extensions, vulnerabilities)
 	Issues := scanner.Scan()
 	md := scanner.GenerateMarkdown(Issues)
 	if *out != "" {

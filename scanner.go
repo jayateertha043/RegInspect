@@ -13,21 +13,23 @@ import (
 // Scanner struct
 type Scanner struct {
 	RootDir         string
+	Extensions      []string
 	Vulnerabilities []Vulnerability
 }
 
 // NewScanner creates a new scanner instance
-func NewScanner(rootDir string, vulnerabilities []Vulnerability) *Scanner {
+func NewScanner(rootDir string, extensions []string, vulnerabilities []Vulnerability) *Scanner {
 	return &Scanner{
 		RootDir:         rootDir,
 		Vulnerabilities: vulnerabilities,
+		Extensions:      extensions,
 	}
 }
 
 // Scan scans the directory and returns any Issues
 func (s *Scanner) Scan() []Issue {
 	var Issues []Issue
-
+	var extLength int = len(s.Extensions)
 	filepath.Walk(s.RootDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -35,6 +37,15 @@ func (s *Scanner) Scan() []Issue {
 		if info.IsDir() {
 			return nil
 		}
+
+		if extLength > 0 {
+			// Check if file extension is in the list
+			ext := filepath.Ext(path)
+			if !stringInSlice(ext, s.Extensions) {
+				return nil
+			}
+		}
+
 		content, err := ioutil.ReadFile(path)
 		if err != nil {
 			return err
@@ -105,4 +116,13 @@ func sortBySeverity(Issue1, Issue2 Issue) bool {
 		"QA":          -1,
 	}
 	return severityOrder[Issue1.Vuln.Severity] > severityOrder[Issue2.Vuln.Severity]
+}
+
+func stringInSlice(str string, list []string) bool {
+	for _, v := range list {
+		if v == str {
+			return true
+		}
+	}
+	return false
 }

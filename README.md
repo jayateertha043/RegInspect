@@ -46,7 +46,7 @@ Usage of RegInspect:
 ```
 
 ```
-RegInspect.exe -dir ./examples/solidity -out ./examples/solidity/output.MD -vuln ./rules/solidity/rules.json
+RegInspect -dir ./examples/solidity -out ./examples/solidity/output.MD -vuln ./rules/solidity/rules.json
 ```
 
 
