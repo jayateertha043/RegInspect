@@ -10,11 +10,13 @@ import (
 )
 
 func main() {
+	printBanner()
+
 	// Parse command line arguments
 	dir := flag.String("dir", ".", "Directory to scan")
+	jsonFile := flag.String("vuln", "", "JSON file containing vulnerabilities")
 	ext := flag.String("ext", "", "Scan Files ending with specific extensions (comma-Separated)")
 	out := flag.String("out", "RegInspect_Report.MD", "Path to Output File")
-	jsonFile := flag.String("vuln", "", "JSON file containing vulnerabilities")
 	flag.Parse()
 
 	// Read vulnerability definitions from JSON file
@@ -58,4 +60,22 @@ func main() {
 
 	fmt.Printf("Output saved to %s\n", *out)
 
+}
+
+func printBanner() {
+	banner := `
+
+	_______  _______  _______ _________ _        _______  _______  _______  _______ _________
+	(  ____ )(  ____ \(  ____ \\__   __/( (    /|(  ____ \(  ____ )(  ____ \(  ____ \\__   __/
+	| (    )|| (    \/| (    \/   ) (   |  \  ( || (    \/| (    )|| (    \/| (    \/   ) (   
+	| (____)|| (__    | |         | |   |   \ | || (_____ | (____)|| (__    | |         | |   
+	|     __)|  __)   | | ____    | |   | (\ \) |(_____  )|  _____)|  __)   | |         | |   
+	| (\ (   | (      | | \_  )   | |   | | \   |      ) || (      | (      | |         | |   
+	| ) \ \__| (____/\| (___) |___) (___| )  \  |/\____) || )      | (____/\| (____/\   | |   
+	|/   \__/(_______/(_______)\_______/|/    )_)\_______)|/       (_______/(_______/   )_(   
+																							  
+	
+			
+	`
+	fmt.Println(banner)
 }

@@ -39,6 +39,8 @@ RegInspect -h
 Usage of RegInspect:
   -dir string
         Directory to scan (default ".")
+  -ext string
+        Scan Files ending with specific extensions (comma-Separated)
   -out string
         Path to Output File (default "RegInspect_Report.MD")
   -vuln string
