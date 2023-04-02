@@ -1,0 +1,9 @@
+[
+    {
+        "id": "0",
+        "name": "Hardcoded Password",
+        "description": "Do not use hardcoded passwords.",
+        "severity": "High",
+        "regex": "(?i)password\\s*=\\s*['\"][^'\"]+['\"]"
+    }
+]

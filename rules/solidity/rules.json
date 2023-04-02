@@ -1,0 +1,65 @@
+[
+    {
+      "id": "SOL1",
+      "name": "Don't Initialize Variables with Default Value",
+      "description": "Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.",
+      "severity": "Informative",
+      "regex": "(uint[0-9]*[[:blank:]][a-z,A-Z,0-9]*.?=.?0;)|(bool.[a-z,A-Z,0-9]*.?=.?false;)"
+    },
+    {
+      "id": "SOL2",
+      "name": "Cache Array Length Outside of Loop",
+      "description": "Cache the length of arrays outside of loops to save gas.",
+      "severity": "Informative",
+      "regex": ".length"
+    },
+    {
+      "id": "SOL3",
+      "name": "Use != 0 instead of > 0 for Unsigned Integer Comparison",
+      "description": "Use != 0 instead of > 0 for comparison with unsigned integers to save gas.",
+      "severity": "Informative",
+      "regex": "(>0|> 0)"
+    },
+    {
+      "id": "SOL6",
+      "name": "Use immutable for OpenZeppelin AccessControl's Roles Declarations",
+      "description": "Use immutable for OpenZeppelin AccessControl's roles declarations to save gas.",
+      "severity": "Informative",
+      "regex": "keccak"
+    },
+    {
+      "id": "SOL7",
+      "name": "Long Revert Strings",
+      "description": "Avoid using long revert strings as they increase the size of the contract and can use a lot of gas.",
+      "severity": "Informative",
+      "regex": "\".{33,}\""
+    },
+    {
+      "id": "SOL8",
+      "name": "Use Shift Right/Left instead of Division/Multiplication if possible",
+      "description": "Use shift right/left instead of division/multiplication with powers of 2 to save gas.",
+      "severity": "Informative",
+      "regex": "/[248]|/ [248]|\\*[248]|\\* [248]"
+    },
+    {
+        "id": "SOL9",
+        "severity": "Low",
+        "name": "Unsafe ERC20 Operation(s)",
+        "description": "https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations",
+        "regex": "\\.transfer\\(|\\.transferFrom\\(|\\.approve\\("
+    },
+    {
+        "id": "SOL10",
+        "severity": "Low",
+        "name": "Unspecific Compiler Version Pragma",
+        "description": "https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma",
+        "regex": "pragma solidity (\\^|>)"
+    },
+    {
+        "id": "SOL11",
+        "severity": "Low",
+        "name": "Do not use Deprecated Library Functions",
+        "description": "https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l005---do-not-use-deprecated-library-functions",
+        "regex": "_setupRole\\(|safeApprove\\("
+    }
+  ]

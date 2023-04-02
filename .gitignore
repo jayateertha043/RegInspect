@@ -6,7 +6,7 @@
 *.dylib
 *.apk
 *.csv
-*.json
+# *.json
 
 # Test binary, built with `go test -c`
 *.test
