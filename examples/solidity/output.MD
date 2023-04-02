@@ -4,182 +4,221 @@
 
 
 
-### **Severity: Low**
-</br>
+### **Severity: Low**</br>
 
-#### **Vulnerability: Unsafe ERC20 Operation(s)**
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations
+#### </br>
+
+### **Vulnerability: Unsafe ERC20 Operation(s) [SOL9]**
+### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations</br></br>
+
+#### **Issue ID**: 7
+
+
 #### **File Name**: examples\solidity\SampleContract.sol
 #### **Line No**: 16
 #### **Content**: 
 <pre>
-        token.transferFrom(msg.sender, address(this), 100);</pre>
-</br>
+        token.transferFrom(msg.sender, address(this), 100);</pre></br>
 
-#### **Vulnerability: Unspecific Compiler Version Pragma**
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma
+
+#### **Issue ID**: 19
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 25
+#### **Line No**: 21
 #### **Content**: 
 <pre>
-pragma solidity ^0.8.0;</pre></pre>
-</br>
+        token.transferFrom(msg.sender, address(this), 100);</pre></br></pre></br>
+#### </br>
 
-#### **Vulnerability: Unsafe ERC20 Operation(s)**
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 16
-#### **Content**: 
-<pre>
-        token.transferFrom(msg.sender, address(this), 100);</pre></pre>
-</br>
+### **Vulnerability: Unspecific Compiler Version Pragma [SOL10]**
+### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma</br></br>
 
-#### **Vulnerability: Unspecific Compiler Version Pragma**
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma
+#### **Issue ID**: 8
+
+
 #### **File Name**: examples\solidity\SampleContract.sol
 #### **Line No**: 1
 #### **Content**: 
 <pre>
-pragma solidity ^0.8.0;</pre>
-</br>
+pragma solidity ^0.8.0;</pre></br>
 
-### **Severity: Informative**
-</br>
 
-#### **Vulnerability: Don't Initialize Variables with Default Value**
-#### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.
+#### **Issue ID**: 20
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 46
+#### **Line No**: 34
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></pre>
-</br>
+pragma solidity ^0.8.0;</pre></br></pre></br>
 
-#### **Vulnerability: Cache Array Length Outside of Loop**
-#### **Description**: Cache the length of arrays outside of loops to save gas.
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 50
+
+### **Severity: Informative**</br>
+
+#### </br>
+
+### **Vulnerability: Cache Array Length Outside of Loop [SOL2]**
+### **Description**: Cache the length of arrays outside of loops to save gas.</br></br>
+
+#### **Issue ID**: 4
+
+
+#### **File Name**: examples\solidity\SampleContract.sol
+#### **Line No**: 12
 #### **Content**: 
 <pre>
-#### **Description**: Cache the length of arrays outside of loops to save gas.</pre>
-</br>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br>
 
-#### **Vulnerability: Long Revert Strings**
-#### **Description**: Avoid using long revert strings as they increase the size of the contract and can use a lot of gas.
+
+#### **Issue ID**: 12
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 61
+#### **Content**: 
+<pre>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+
+
+#### **Issue ID**: 13
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 65
+#### **Content**: 
+<pre>
+### **Description**: Cache the length of arrays outside of loops to save gas.</br></br></pre></br>
+
+
+#### **Issue ID**: 14
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 74
+#### **Content**: 
+<pre>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+#### </br>
+
+### **Vulnerability: Long Revert Strings [SOL7]**
+### **Description**: Avoid using long revert strings as they increase the size of the contract and can use a lot of gas.</br></br>
+
+#### **Issue ID**: 5
+
+
 #### **File Name**: examples\solidity\SampleContract.sol
 #### **Line No**: 6
 #### **Content**: 
 <pre>
-    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre>
-</br>
+    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre></br>
 
-#### **Vulnerability: Don't Initialize Variables with Default Value**
-#### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.
+
+#### **Issue ID**: 15
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 37
+#### **Line No**: 87
 #### **Content**: 
 <pre>
-    uint256 a = 0;</pre></pre>
-</br>
+    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre></br></pre></br>
+#### </br>
 
-#### **Vulnerability: Don't Initialize Variables with Default Value**
-#### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.
-#### **File Name**: examples\solidity\SampleContract.sol
-#### **Line No**: 4
-#### **Content**: 
-<pre>
-    uint256 a = 0;</pre>
-</br>
+### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible [SOL8]**
+### **Description**: Use shift right/left instead of division/multiplication with powers of 2 to save gas.</br></br>
 
-#### **Vulnerability: Don't Initialize Variables with Default Value**
-#### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 55
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></pre>
-</br>
+#### **Issue ID**: 6
 
-#### **Vulnerability: Cache Array Length Outside of Loop**
-#### **Description**: Cache the length of arrays outside of loops to save gas.
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 46
-#### **Content**: 
-<pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></pre>
-</br>
 
-#### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible**
-#### **Description**: Use shift right/left instead of division/multiplication with powers of 2 to save gas.
 #### **File Name**: examples\solidity\SampleContract.sol
 #### **Line No**: 13
 #### **Content**: 
 <pre>
-            i = i / 2;</pre>
-</br>
+            i = i / 2;</pre></br>
 
-#### **Vulnerability: Cache Array Length Outside of Loop**
-#### **Description**: Cache the length of arrays outside of loops to save gas.
+
+#### **Issue ID**: 16
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 55
+#### **Line No**: 12
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre></pre>
-</br>
+### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations</br></br></pre></br>
 
-#### **Vulnerability: Long Revert Strings**
-#### **Description**: Avoid using long revert strings as they increase the size of the contract and can use a lot of gas.
+
+#### **Issue ID**: 17
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 64
+#### **Line No**: 25
 #### **Content**: 
 <pre>
-    string b = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";</pre></pre>
-</br>
+### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma</br></br></pre></br>
 
-#### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible**
-#### **Description**: Use shift right/left instead of division/multiplication with powers of 2 to save gas.
+
+#### **Issue ID**: 18
+
+
 #### **File Name**: examples\solidity\output.MD
-#### **Line No**: 11
+#### **Line No**: 100
 #### **Content**: 
 <pre>
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l001---unsafe-erc20-operations</pre>
-</br>
+            i = i / 2;</pre></br></pre></br>
+#### </br>
 
-#### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible**
-#### **Description**: Use shift right/left instead of division/multiplication with powers of 2 to save gas.
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 20
+### **Vulnerability: Don't Initialize Variables with Default Value [SOL1]**
+### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.</br></br>
+
+#### **Issue ID**: 2
+
+
+#### **File Name**: examples\solidity\SampleContract.sol
+#### **Line No**: 4
 #### **Content**: 
 <pre>
-#### **Description**: https://github.com/byterocket/c4-common-issues/blob/main/2-Low-Risk.md#l003---unspecific-compiler-version-pragma</pre>
-</br>
+    uint256 a = 0;</pre></br>
 
-#### **Vulnerability: Use Shift Right/Left instead of Division/Multiplication if possible**
-#### **Description**: Use shift right/left instead of division/multiplication with powers of 2 to save gas.
-#### **File Name**: examples\solidity\output.MD
-#### **Line No**: 73
-#### **Content**: 
-<pre>
-            i = i / 2;</pre></pre>
-</br>
 
-#### **Vulnerability: Cache Array Length Outside of Loop**
-#### **Description**: Cache the length of arrays outside of loops to save gas.
+#### **Issue ID**: 3
+
+
 #### **File Name**: examples\solidity\SampleContract.sol
 #### **Line No**: 12
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre>
-</br>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br>
 
-#### **Vulnerability: Don't Initialize Variables with Default Value**
-#### **Description**: Avoid initializing variables with default values like zero and false, as this generates unnecessary bytecode.
-#### **File Name**: examples\solidity\SampleContract.sol
-#### **Line No**: 12
+
+#### **Issue ID**: 9
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 51
 #### **Content**: 
 <pre>
-        for (uint256 i = 0; i < array.length; i++) {</pre>
-</br>
+    uint256 a = 0;</pre></br></pre></br>
+
+
+#### **Issue ID**: 10
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 61
+#### **Content**: 
+<pre>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+
+
+#### **Issue ID**: 11
+
+
+#### **File Name**: examples\solidity\output.MD
+#### **Line No**: 74
+#### **Content**: 
+<pre>
+        for (uint256 i = 0; i < array.length; i++) {</pre></br></pre></br>
+
 
 
 

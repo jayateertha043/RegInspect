@@ -4,26 +4,32 @@
 
 
 
-### **Severity: High**
-</br>
+### **Severity: High**</br>
 
-#### **Vulnerability: Hardcoded Password**
-#### **Description**: Do not use hardcoded passwords.
-#### **File Name**: ./examples/python/passwords.py
+#### </br>
+
+### **Vulnerability: Hardcoded Password [0]**
+### **Description**: Do not use hardcoded passwords.</br></br>
+
+#### **Issue ID**: 2
+
+
+#### **File Name**: examples\python\passwords.py
 #### **Line No**: 2
 #### **Content**: 
 <pre>
-password="secret"</pre>
-</br>
+password="secret"</pre></br>
 
-#### **Vulnerability: Hardcoded Password**
-#### **Description**: Do not use hardcoded passwords.
-#### **File Name**: ./examples/python/passwords.py
+
+#### **Issue ID**: 3
+
+
+#### **File Name**: examples\python\passwords.py
 #### **Line No**: 4
 #### **Content**: 
 <pre>
-passwoRd = "secret123"</pre>
-</br>
+passwoRd = "secret123"</pre></br>
+
 
 
 

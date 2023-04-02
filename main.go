@@ -52,6 +52,11 @@ func main() {
 	Issues := scanner.Scan()
 	md := scanner.GenerateMarkdown(Issues)
 	if *out != "" {
+		if err := os.Remove(*out); err != nil && !os.IsNotExist(err) {
+			fmt.Printf("Failed to existing remove output file: %v\n", err)
+			os.Exit(1)
+		}
+
 		err := ioutil.WriteFile(*out, []byte(md), 0644)
 		if err != nil {
 			fmt.Printf("Failed to write to output file: %v\n", err)

@@ -7,7 +7,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"sort"
 	"strconv"
 	"sync"
 )
@@ -32,11 +31,12 @@ func NewScanner(rootDir string, extensions []string, threads int, vulnerabilitie
 
 // Scan scans the directory and returns any Issues
 func (s *Scanner) Scan() []Issue {
+	var mu sync.Mutex
 	var Issues []Issue
 	var extLength int = len(s.Extensions)
 	fileChan := make(chan string)
 	var filePaths []string
-
+	var issueID int = 1
 	filepath.Walk(s.RootDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -46,15 +46,12 @@ func (s *Scanner) Scan() []Issue {
 		}
 
 		if extLength > 0 {
-			// Check if file extension is in the list
-			//fmt.Println(extLength)
 			ext := filepath.Ext(path)
 			if !stringInSlice(ext, s.Extensions) {
 				return nil
 			}
 		}
 		filePaths = append(filePaths, path)
-		//fileChan <- path
 		return nil
 	})
 	//fmt.Println(filePaths)
@@ -82,13 +79,17 @@ func (s *Scanner) Scan() []Issue {
 					reg := regexp.MustCompile(vulnerability.Regex)
 					matches := reg.FindAllStringSubmatchIndex(string(content), -1)
 					for _, match := range matches {
+						mu.Lock()
+						issueID = issueID + 1
 						Issue := Issue{
 							File:        path,
 							Line:        s.getLineNumber(content, match),
 							LineContent: s.getLine(content, match),
 							Vuln:        vulnerability,
+							IssueID:     issueID,
 						}
 						Issues = append(Issues, Issue)
+						mu.Unlock()
 					}
 				}
 			}
@@ -129,33 +130,44 @@ func (s *Scanner) GenerateMarkdown(Issues []Issue) string {
 	MarkDown := "# **RegInspect Vulnerability Report**\n\n"
 	VulnerabilitiesHead := "## **Vulnerabilities** -\n\n"
 	MarkDown = MarkDown + VulnerabilitiesHead
-	SortBySeverity(Issues)
-	severityChanged := ""
-	for _, Issue := range Issues {
-		if Issue.Vuln.Severity != severityChanged {
-			MarkDown = MarkDown + "\n\n### **Severity: " + Issue.Vuln.Severity + "**" + "\n</br>"
-			severityChanged = Issue.Vuln.Severity
+
+	// group issues by severity and issue ID
+	severityIDGroups := make(map[string]map[string][]Issue)
+	for _, issue := range Issues {
+		if _, ok := severityIDGroups[issue.Vuln.Severity]; !ok {
+			severityIDGroups[issue.Vuln.Severity] = make(map[string][]Issue)
 		}
-		MarkDown = MarkDown + "\n\n#### **Vulnerability: " + Issue.Vuln.Name + "**" + "\n" + "#### **Description**: " + Issue.Vuln.Description + "\n" + "#### **File Name**: " + Issue.File + "\n" + "#### **Line No**: " + strconv.Itoa(Issue.Line) + "\n" + "#### **Content**: " + "\n<pre>\n" + Issue.LineContent + "</pre>" + "\n</br>"
+		severityIDGroups[issue.Vuln.Severity][issue.Vuln.ID] = append(severityIDGroups[issue.Vuln.Severity][issue.Vuln.ID], issue)
 	}
-	MarkDown = MarkDown + "\n\n\n\n"
+
+	// iterate through severity groups in order of decreasing severity
+	severityOrder := []string{"Critical", "High", "Medium", "Low", "Informative", "QA"}
+	for _, severity := range severityOrder {
+		if _, ok := severityIDGroups[severity]; ok {
+			MarkDown += "\n\n### **Severity: " + severity + "**</br>\n\n"
+			for _, idGroup := range severityIDGroups[severity] {
+
+				vulnName := ""
+				vulnDesc := ""
+				for _, issue := range idGroup {
+					issueID := issue.IssueID
+					if vulnName == "" && vulnDesc == "" {
+						vulnName = issue.Vuln.Name
+						vulnDesc = issue.Vuln.Description
+						MarkDown = MarkDown + "#### </br>"
+						MarkDown += "\n\n### **Vulnerability: " + vulnName + " [" + issue.Vuln.ID + "]" + "**\n" +
+							"### **Description**: " + vulnDesc + "</br></br>"
+					}
+					MarkDown += "\n\n#### **Issue ID**: " + strconv.Itoa(issueID) + "\n" + "\n\n#### **File Name**: " + issue.File + "\n" +
+						"#### **Line No**: " + strconv.Itoa(issue.Line) + "\n" +
+						"#### **Content**: " + "\n<pre>\n" + issue.LineContent + "</pre></br>\n"
+				}
+			}
+		}
+	}
+
+	MarkDown += "\n\n\n\n"
 	return MarkDown
-}
-func SortBySeverity(Issues []Issue) {
-	sort.Slice(Issues, func(i, j int) bool {
-		return sortBySeverity(Issues[i], Issues[j])
-	})
-}
-func sortBySeverity(Issue1, Issue2 Issue) bool {
-	severityOrder := map[string]int{
-		"Critical":    4,
-		"High":        3,
-		"Medium":      2,
-		"Low":         1,
-		"Informative": 0,
-		"QA":          -1,
-	}
-	return severityOrder[Issue1.Vuln.Severity] > severityOrder[Issue2.Vuln.Severity]
 }
 
 func stringInSlice(str string, list []string) bool {
