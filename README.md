@@ -54,6 +54,8 @@ Usage of RegInspect.exe:
         Scan Files ending with specific extensions (comma-Separated)
   -out string
         Path to Output File (default "RegInspect_Report.MD")
+  -threads int
+        No. Of Threads (default 10)
   -vuln string
         JSON file containing vulnerabilities
 ```
